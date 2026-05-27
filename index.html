@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric's Dev Blog - Git 使用流程指南</title>
+    <style>
+        /* 基本樣式重設與字型設定 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background-color: #f7f9fa;
+            padding: 0 20px;
+        }
+
+        /* 頁首樣式 */
+        header {
+            max-width: 800px;
+            margin: 40px auto 20px auto;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e1e4e8;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #24292e;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #586069;
+            font-size: 1.1rem;
+        }
+
+        /* 主要內容區塊 */
+        main {
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 文章標題與引言 */
+        .post-meta {
+            font-size: 0.9rem;
+            color: #6a737d;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 30px;
+            padding-left: 15px;
+            border-left: 4px solid #0366d6;
+        }
+
+        /* 文章內文結構 */
+        h2 {
+            font-size: 1.6rem;
+            color: #24292e;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eaecef;
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        /* Git 步驟清單 */
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+            margin: 25px 0;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 45px;
+            margin-bottom: 25px;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            background-color: #0366d6;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* 程式碼區塊樣式 */
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            background-color: #f6f8fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            color: #d73a49;
+        }
+
+        pre {
+            background-color: #f6f8fa;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 12px 0;
+            border: 1px solid #e1e4e8;
+        }
+
+        pre code {
+            padding: 0;
+            background-color: transparent;
+            color: #24292e;
+        }
+
+        .comment {
+            color: #6a737d;
+        }
+
+        /* 頁尾樣式 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6a737d;
+            font-size: 0.85rem;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Eric's Dev Blog</h1>
+        <p>技術隨筆與開發實錄</p>
+    </header>
+
+    <main>
+        <article>
+            <h2>高效開發必備：Git 基礎使用流程指南</h2>
+            <div class="post-meta">發佈日期：2026-05-27 | 分類：版本控制</div>
+
+            <p class="intro">Git 是現代軟體開發中不可或缺的版本控制系統。無論是個人開發還是團隊協作，掌握 Git
+                的核心工作流（Workflow）都能讓你的程式碼管理變得井然有序。本文將用最直覺的步驟，帶你走過一遍標準的 Git 使用流程。</p>
+
+            <p>在進入步驟之前，我們需要先理解 Git 的「三個在地端區域」：<strong>工作區 (Working Directory)</strong>、<strong>暫存區 (Staging
+                    Area)</strong> 以及 <strong>儲存庫 (Repository)</strong>。接下來的流程就是圍繞著這三個區域進行。</p>
+
+
+
+            <ul class="step-list">
+                <li>
+                    <strong>步驟一：初始化或複製專案</strong>
+                    <p>如果你要從零開始一個新專案，可以在專案目錄下初始化 Git：</p>
+                    <pre><code>git init</code></pre>
+                    <p>若是加入現有的團隊專案，則是從遠端儲存庫（如 GitHub / GitLab）複製下來：</p>
+                    <pre><code>git clone &lt;遠端儲存庫 URL&gt;</code></pre>
+                </li>
+
+                <li>
+                    <strong>步驟二：建立分支 (Branching)</strong>
+                    <p>為了保持主線（通常是 <code>main</code> 或 <code>master</code>）的穩定，開發新功能或修復 Bug 時，強烈建議建立獨立的分支：</p>
+                    <pre><code><span class="comment"># 建立並切換到新分支</span>
+git checkout -b feature/login-page</code></pre>
+                </li>
+
+                <li>
+                    <strong>步驟三：修改程式碼並加入暫存區 (Add)</strong>
+                    <p>當你在工作區完成程式碼的撰寫或修改後，可以使用以下指令將檔案加入暫存區，準備進行版本標記：</p>
+                    <pre><code><span class="comment"># 加入特定檔案</span>
+git add src/main/java/Main.java
+
+<span class="comment"># 或加入所有變更檔案</span>
+git add .</code></pre>
+                </li>
+
+                <li>
+                    <strong>步驟四：提交變更 (Commit)</strong>
+                    <p>將暫存區的檔案正式存入地端儲存庫，並撰寫有意義的 Commit Message，記錄這次修改的目的：</p>
+                    <pre><code>git commit -m "feat: implement user login authentication"</code></pre>
+                </li>
+
+                <li>
+                    <strong>步驟五：推送至遠端儲存庫 (Push)</strong>
+                    <p>地端紀錄完成後，將你的本地分支推送到遠端伺服器，讓團隊成員看見你的變更：</p>
+                    <pre><code>git push origin feature/login-page</code></pre>
+                </li>
+
+                <li>
+                    <strong>步驟六：建立 Pull Request (PR) 與合併</strong>
+                    <p>最後，在 GitHub 等平台上發起 Pull Request。經過團隊 Code Review 並且跑完 CI/CD
+                        自動化測試（例如安全掃描、單元測試）確認無誤後，即可將程式碼安全地合併（Merge）回主分支！</p>
+                </li>
+            </ul>
+
+            <h2>小結</h2>
+            <p>簡單來說，Git 的日常循環就是：<code>修改程式碼</code> ➔ <code>git add</code> ➔ <code>git commit</code> ➔
+                <code>git push</code>。養成良好的 Git 使用習慣，不僅能保護自己的程式碼資產，更能讓團隊協作更加順暢。</p>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Eric's Dev Blog. Powered by Clean HTML & CSS.</p>
+    </footer>
+
+</body>
+
+</html>
